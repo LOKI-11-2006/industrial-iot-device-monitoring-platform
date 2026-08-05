@@ -6,9 +6,11 @@ A production-oriented AWS platform for securely registering industrial devices, 
 
 **Phase 1 - Canonical Software Architecture Document v2.0: approved.**
 
-**Phase 2 - UI/UX Design Specification v1.0: complete and awaiting approval.**
+**Phase 2 - UI/UX Design Specification v1.0: approved.**
 
-No application code exists in this repository. Frontend development must not begin until the Phase 2 design specification is explicitly approved.
+**Frontend Phase 1 - project foundation, theme, routing and responsive shell: complete and awaiting approval.**
+
+The repository now contains the approved frontend foundation. Authentication implementation must not begin until Frontend Phase 1 is explicitly approved.
 
 ## Canonical architecture baseline
 
@@ -47,6 +49,10 @@ If a supporting document conflicts with the canonical SAD, the SAD takes precede
 - AWS: API Gateway, Lambda, DynamoDB, IoT Core, S3, SNS, CloudWatch, IAM, KMS, WAF, CloudTrail, and Secrets Manager
 - Delivery: infrastructure as code, automated testing, security scanning, and gated deployment pipelines
 
+## Frontend implementation
+
+The [frontend workspace](frontend/README.md) contains the approval-gated React implementation. Frontend Phase 1 establishes the production toolchain, strict TypeScript boundaries, design tokens, reusable shell primitives, role-aware route metadata, responsive navigation, API/query-provider seams, and explicit error/access states. Feature screens remain gated to their approved delivery phases.
+
 ## Architecture principles
 
 1. Security and tenant isolation are enforced server-side and default to deny.
@@ -58,4 +64,4 @@ If a supporting document conflicts with the canonical SAD, the SAD takes precede
 
 ## Phase gate
 
-The next permitted activity is stakeholder review of the UI/UX Design Specification. Frontend implementation may begin only after explicit Phase 2 approval and under a separately authorized implementation phase. Architecture or design changes discovered later must be recorded and reviewed rather than silently changing the approved baselines.
+The next permitted activity is stakeholder review of Frontend Phase 1. Frontend Phase 2 authentication pages may begin only after explicit approval. Architecture or design changes discovered later must be recorded and reviewed rather than silently changing the approved baselines.

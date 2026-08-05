@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">ForgeSight</title>
+  <path fill="#20C997" d="M8 12.5 24 3l16 9.5v23L24 45 8 35.5z"/>
+  <path fill="#070B12" d="M14 17.2 24 11l10 6.2v4.9L24 16l-5.7 3.5v4.1L24 27l10-6.1v10L24 37l-10-6.1z"/>
+  <circle cx="35.5" cy="12.5" r="3.5" fill="#4EA1FF"/>
+</svg>
