@@ -1,11 +1,11 @@
-export interface ApiEnvelope<TData> {
-  readonly data: TData;
-  readonly requestId?: string;
-}
-
 export interface ApiProblem {
+  readonly type?: string;
+  readonly title: string;
+  readonly status: number;
   readonly code: string;
-  readonly message: string;
-  readonly requestId?: string;
+  readonly detail: string;
+  readonly instance?: string;
+  readonly correlationId?: string;
   readonly fieldErrors?: Readonly<Record<string, readonly string[]>>;
+  readonly retryAfterSeconds?: number;
 }

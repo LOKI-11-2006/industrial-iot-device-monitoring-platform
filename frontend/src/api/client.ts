@@ -1,12 +1,13 @@
+import { accessTokenStore } from "@/api/access-token";
 import { appConfig } from "@/config/env";
-import type { ApiEnvelope, ApiProblem } from "@/types/api";
+import type { ApiProblem } from "@/types/api";
 
 export class ApiClientError extends Error {
   readonly status: number;
   readonly problem: ApiProblem;
 
   constructor(status: number, problem: ApiProblem) {
-    super(problem.message);
+    super(problem.detail || problem.title || "The request could not be completed.");
     this.name = "ApiClientError";
     this.status = status;
     this.problem = problem;
@@ -19,7 +20,9 @@ async function parseProblem(response: Response): Promise<ApiProblem> {
   } catch {
     return {
       code: "UNEXPECTED_RESPONSE",
-      message: "The service returned an unexpected response.",
+      detail: "The service returned an unexpected response.",
+      status: response.status,
+      title: "Unexpected service response",
     };
   }
 }
@@ -27,13 +30,15 @@ async function parseProblem(response: Response): Promise<ApiProblem> {
 export async function apiRequest<TData>(
   path: string,
   init?: RequestInit,
-): Promise<ApiEnvelope<TData>> {
+): Promise<TData> {
+  const accessToken = accessTokenStore.get();
   const response = await fetch(`${appConfig.apiBaseUrl}${path}`, {
     ...init,
     credentials: "include",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       ...init?.headers,
     },
   });
@@ -42,5 +47,5 @@ export async function apiRequest<TData>(
     throw new ApiClientError(response.status, await parseProblem(response));
   }
 
-  return (await response.json()) as ApiEnvelope<TData>;
+  return (await response.json()) as TData;
 }
