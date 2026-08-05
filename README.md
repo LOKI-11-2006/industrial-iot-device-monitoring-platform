@@ -4,11 +4,17 @@ A production-oriented AWS platform for securely registering industrial devices, 
 
 ## Project status
 
-**Phase 1 - Requirements and Architecture: complete and awaiting approval.**
+**Phase 1 - Canonical Software Architecture Document v2.0: complete and awaiting approval.**
 
-No application code has been added. Phase 2 must not begin until the Phase 1 package is explicitly approved.
+No application code exists in this repository. Development must not begin until the canonical SAD is explicitly approved.
 
-## Phase 1 design package
+## Canonical architecture baseline
+
+[Software Architecture Document v2.0](docs/SOFTWARE_ARCHITECTURE_DOCUMENT.md) is the implementation handoff and source of truth. It contains all 17 required sections: business, functional and non-functional requirements; complete system, AWS and software architecture; database and API designs; folder structure; security and IoT architecture; data flows; user journeys; UI planning; roadmap; risks; and future enhancements.
+
+If a supporting document conflicts with the canonical SAD, the SAD takes precedence until an approved Architecture Decision Record changes the baseline.
+
+## Supporting Phase 1 analysis
 
 | # | Deliverable | Document |
 |---:|---|---|
@@ -46,4 +52,4 @@ No application code has been added. Phase 2 must not begin until the Phase 1 pac
 
 ## Phase gate
 
-The next permitted activity is stakeholder review of Phase 1. After explicit approval, Phase 2 may implement the frontend against documented contracts and mock adapters. Architecture changes discovered later must be recorded and reviewed rather than silently changing these baselines.
+The next permitted activity is stakeholder review of the canonical SAD. After explicit approval, development may proceed only under a separately approved implementation phase. Architecture changes discovered later must be recorded and reviewed rather than silently changing this baseline.
