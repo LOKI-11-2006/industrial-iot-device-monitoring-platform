@@ -12,9 +12,11 @@ A production-oriented AWS platform for securely registering industrial devices, 
 
 **Frontend Phase 2 - authentication and account recovery: approved.**
 
-**Backend Phase 1 - project foundation, configuration and environment handling: complete and awaiting approval.**
+**Backend Phase 1 - project foundation, configuration and environment handling: approved.**
 
-The repository now contains the approved frontend foundation and authentication implementation. The backend implementation has begun under its separate seven-phase approval cycle; Backend Phase 2 authentication, JWT and RBAC remain gated until Backend Phase 1 is explicitly approved.
+**Backend Phase 2 - authentication, JWT sessions and RBAC: complete and awaiting approval.**
+
+The repository now contains the approved frontend foundation and authentication experience plus the backend foundation. Backend Phase 2 implements the matching server-side identity and authorization boundary while leaving DynamoDB persistence for the next approval-gated phase.
 
 ## Canonical architecture baseline
 
@@ -59,7 +61,7 @@ The [frontend workspace](frontend/README.md) contains the approval-gated React i
 
 ## Backend implementation
 
-The [backend workspace](backend/README.md) contains the approval-gated Python and FastAPI implementation. Backend Phase 1 establishes the mandatory modular structure, pinned dependency baseline, validated environment configuration, FastAPI/Lambda bootstrap, minimal liveness contract, structured redacted logging, correlation propagation, restricted CORS and trusted hosts, security headers, canonical problem responses, and strict quality tooling. Authentication and persistence behavior remain reserved for their approved backend phases.
+The [backend workspace](backend/README.md) contains the approval-gated Python and FastAPI implementation. Backend Phase 1 establishes the modular AWS-ready foundation. Backend Phase 2 adds asymmetric short-lived JWTs, live server-side sessions, rotating opaque refresh credentials with reuse detection, Argon2id passwords, safe reset flows, temporary lockout and throttling, default-deny RBAC, trusted factory scopes, authentication evidence, protected endpoints, and executable OpenAPI contracts. DynamoDB adapters and data models remain reserved for Backend Phase 3.
 
 ## Architecture principles
 
@@ -72,4 +74,4 @@ The [backend workspace](backend/README.md) contains the approval-gated Python an
 
 ## Phase gate
 
-The next requested activity is stakeholder review of Backend Phase 1. Backend Phase 2 authentication, JWT and RBAC may begin only after explicit approval. Frontend Phase 3 is permitted by the frontend gate but has not been started because the backend handoff is now active. Architecture or design changes discovered later must be recorded and reviewed rather than silently changing the approved baselines.
+The next requested activity is stakeholder review of Backend Phase 2. Backend Phase 3 database models and DynamoDB repositories may begin only after explicit approval. Frontend Phase 3 remains permitted by its gate but has not been started because the backend handoff is active. Architecture or design changes discovered later must be recorded and reviewed rather than silently changing the approved baselines.

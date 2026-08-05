@@ -18,3 +18,8 @@ class ProblemDetail(BaseModel):
     instance: str
     correlation_id: str = Field(alias="correlationId")
     field_errors: dict[str, list[str]] | None = Field(default=None, alias="fieldErrors")
+    retry_after_seconds: int | None = Field(
+        default=None,
+        alias="retryAfterSeconds",
+        ge=1,
+    )

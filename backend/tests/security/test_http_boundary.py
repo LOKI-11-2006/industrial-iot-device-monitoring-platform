@@ -1,9 +1,12 @@
 """HTTP boundary security regression tests."""
 
+import pytest
 from fastapi.testclient import TestClient
 
 from app.config.settings import DeploymentEnvironment, Settings
 from app.core.application import create_app
+from app.repositories.auth import InMemoryAuthRepository
+from app.security.tokens import development_signing_material
 
 
 def test_security_headers_are_present_on_api_responses(client: TestClient) -> None:
@@ -62,8 +65,13 @@ def test_production_disables_docs_and_enables_hsts() -> None:
         jwt_signing_key_secret_arn=(
             "arn:aws:secretsmanager:ap-south-1:123456789012:secret:forgesight/prod/jwt-AbCd12"
         ),
+        refresh_cookie_secure=True,
     )
-    application = create_app(settings)
+    application = create_app(
+        settings,
+        auth_repository=InMemoryAuthRepository(),
+        signing_material=development_signing_material(),
+    )
 
     with TestClient(application, base_url="https://api.example.com") as client:
         health = client.get("/api/v1/health/live")
@@ -71,3 +79,21 @@ def test_production_disables_docs_and_enables_hsts() -> None:
 
     assert health.headers["strict-transport-security"] == "max-age=31536000; includeSubDomains"
     assert docs.status_code == 404
+
+
+def test_production_refuses_implicit_in_memory_authentication() -> None:
+    settings = Settings(
+        _env_file=None,
+        environment=DeploymentEnvironment.PRODUCTION,
+        docs_enabled=False,
+        cors_allowed_origins=["https://console.example.com"],
+        allowed_hosts=["api.example.com"],
+        aws_resource_prefix="forgesight-prod",
+        jwt_signing_key_secret_arn=(
+            "arn:aws:secretsmanager:ap-south-1:123456789012:secret:forgesight/prod/jwt-AbCd12"
+        ),
+        refresh_cookie_secure=True,
+    )
+
+    with pytest.raises(ValueError, match="durable repository"):
+        create_app(settings, signing_material=development_signing_material())
