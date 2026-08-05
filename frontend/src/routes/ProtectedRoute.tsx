@@ -3,6 +3,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { RouteLoadingScreen } from "@/components/feedback/RouteLoadingScreen";
 import { SessionErrorScreen } from "@/components/feedback/SessionErrorScreen";
 import { useSessionQuery } from "@/features/auth/hooks/use-session-query";
+import { getPendingAuthEntryReason } from "@/features/auth/model/auth-entry-state";
 import { paths } from "@/routes/paths";
 import { findRouteMetadata } from "@/routes/route-registry";
 
@@ -19,7 +20,16 @@ export function ProtectedRoute() {
   }
 
   if (!session.data) {
-    return <Navigate to={paths.unauthorized} replace state={{ from: location.pathname }} />;
+    return (
+      <Navigate
+        to={paths.login}
+        replace
+        state={{
+          reason: getPendingAuthEntryReason() ?? "authentication-required",
+          returnTo: location.pathname,
+        }}
+      />
+    );
   }
 
   const metadata = findRouteMetadata(location.pathname);

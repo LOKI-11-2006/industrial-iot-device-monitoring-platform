@@ -1,6 +1,8 @@
-import { Bell, Check, ChevronDown, CircleHelp, Menu, MonitorCog, Moon, Search } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Bell, Check, ChevronDown, CircleHelp, LogOut, Menu, MonitorCog, Moon, Search } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "sonner";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -18,7 +20,9 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { GlobalSearchDialog } from "@/components/navigation/GlobalSearchDialog";
 import { TIME_RANGE_OPTIONS, type TimeRange } from "@/constants/time-ranges";
-import { useSessionQuery } from "@/features/auth/hooks/use-session-query";
+import { useLogoutMutation } from "@/features/auth/hooks/use-auth-mutations";
+import { sessionQueryKey, useSessionQuery } from "@/features/auth/hooks/use-session-query";
+import { setPendingAuthEntryReason } from "@/features/auth/model/auth-entry-state";
 import { useShell } from "@/hooks/use-shell";
 import { useTheme, type ThemePreference } from "@/providers/ThemeProvider";
 import { paths } from "@/routes/paths";
@@ -36,9 +40,11 @@ function initials(displayName: string) {
 
 export function AppNavbar() {
   const { pathname } = useLocation();
+  const queryClient = useQueryClient();
   const { openMobileNavigation } = useShell();
   const { preference, setPreference } = useTheme();
   const session = useSessionQuery();
+  const logoutMutation = useLogoutMutation();
   const route = findRouteMetadata(pathname);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [factoryScope, setFactoryScope] = useState("all");
@@ -51,6 +57,19 @@ export function AppNavbar() {
   const { user } = session.data;
   const selectedTimeRange = TIME_RANGE_OPTIONS.find((option) => option.value === timeRange);
   const selectedFactory = user.factoryScopes.find((factory) => factory.id === factoryScope);
+
+  const handleLogout = async () => {
+    try {
+      await logoutMutation.mutateAsync();
+      toast.success("You are signed out.");
+    } catch {
+      toast.warning("The local session was cleared, but server revocation could not be confirmed.");
+    } finally {
+      setPendingAuthEntryReason("signed-out");
+      queryClient.setQueryData(sessionQueryKey, null);
+      void queryClient.invalidateQueries({ queryKey: sessionQueryKey, refetchType: "none" });
+    }
+  };
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-border/70 bg-background/95 px-3 backdrop-blur md:h-16 md:px-5 xl:px-6">
@@ -177,7 +196,10 @@ export function AppNavbar() {
           <DropdownMenuItem asChild><Link to={paths.settings}>Preferences</Link></DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuLabel>{ROLE_LABELS[user.role]}</DropdownMenuLabel>
-          <DropdownMenuItem disabled>Sign out arrives in Frontend Phase 2</DropdownMenuItem>
+          <DropdownMenuItem disabled={logoutMutation.isPending} onSelect={() => void handleLogout()}>
+            <LogOut aria-hidden="true" />
+            {logoutMutation.isPending ? "Signing out…" : "Sign out"}
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 

@@ -4,19 +4,17 @@ Production-oriented React and TypeScript frontend for the ForgeSight Industrial 
 
 ## Current delivery gate
 
-Frontend Phase 1 establishes the project foundation only:
+Frontend Phase 1 is approved. Frontend Phase 2 adds the authentication experience:
 
-- React 18, TypeScript and Vite initialization
-- approved dependency stack and strict compiler/lint configuration
-- mandatory modular source folders
-- enterprise dark-theme tokens and self-hosted product typography
-- shadcn-compatible component configuration and accessible foundational primitives
-- lazy, typed route registry for every required page
-- permission-filtered responsive sidebar, top navigation, breadcrumbs and global destination search
-- isolated API client, React Query provider and mock session adapter
-- loading, network-error, unauthorized, forbidden and 404 boundaries
+- accessible login and password-recovery forms with inline validation
+- show/hide password control, trusted-device persistence and functional sign-out
+- guarded navigation with safe, role-authorized return destinations
+- session restoration through a typed real/mock authentication adapter
+- generic credential and recovery responses that prevent account enumeration
+- explicit network, lockout, rate-limit, session-expired and service-status feedback
+- retry countdowns, loading states, keyboard focus management and responsive layouts
 
-Authentication forms and behavior are intentionally reserved for Frontend Phase 2. Feature routes display an explicit phase-boundary canvas rather than presenting temporary data or placeholder widgets as finished functionality.
+Dashboard and feature screens remain intentionally gated. They display an explicit phase-boundary canvas rather than presenting temporary data or placeholder widgets as finished functionality.
 
 ## Requirements
 
@@ -31,6 +29,8 @@ Authentication forms and behavior are intentionally reserved for Frontend Phase 
 4. Open `http://localhost:4173`.
 
 Mock mode is enabled by default and is isolated behind the session API adapter. Set `VITE_ENABLE_MOCK_API=false` only when a compatible backend session endpoint is available.
+
+In mock mode, any valid email and password of at least eight characters signs in. The email prefixes `viewer`, `operator`, `engineer`, `manager`, `factoryadmin`, and `superadmin` select each approved role. The documented `invalid@forgesight.demo`, `locked@forgesight.demo`, `rate-limit@forgesight.demo`, and `network@forgesight.demo` fixtures exercise safe failure states; never use production credentials in mock mode.
 
 ## Dependency security note
 
