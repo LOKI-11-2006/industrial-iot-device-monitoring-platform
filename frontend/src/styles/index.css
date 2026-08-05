@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --background: 216 44% 5%;
+    --foreground: 216 48% 94%;
+    --surface: 216 38% 8%;
+    --card: 212 35% 10%;
+    --card-foreground: 216 48% 94%;
+    --popover: 212 35% 13%;
+    --popover-foreground: 216 48% 94%;
+    --elevated: 212 35% 13%;
+    --primary: 162 73% 46%;
+    --primary-foreground: 216 44% 5%;
+    --primary-hover: 162 67% 58%;
+    --primary-pressed: 162 73% 28%;
+    --secondary: 212 100% 65%;
+    --secondary-foreground: 216 44% 5%;
+    --muted: 214 31% 12%;
+    --muted-foreground: 214 17% 59%;
+    --accent: 213 38% 15%;
+    --accent-foreground: 216 48% 94%;
+    --destructive: 355 82% 65%;
+    --destructive-foreground: 216 48% 94%;
+    --success: 160 64% 52%;
+    --warning: 42 90% 60%;
+    --info: 213 94% 68%;
+    --border: 213 31% 22%;
+    --input: 212 35% 16%;
+    --ring: 171 78% 64%;
+    --status-online: 157 69% 55%;
+    --status-offline: 215 20% 65%;
+    --status-critical: 355 100% 70%;
+    --status-maintenance: 42 91% 66%;
+    --status-inactive: 215 16% 47%;
+    --status-stale: 271 91% 75%;
+    --status-unknown: 216 11% 70%;
+    --radius-xs: 0.25rem;
+    --radius-sm: 0.375rem;
+    --radius-md: 0.625rem;
+    --radius-lg: 0.875rem;
+    --shadow-subtle: 0 2px 8px rgb(0 0 0 / 18%);
+    --shadow-popover: 0 8px 24px rgb(0 0 0 / 28%);
+    --shadow-dialog: 0 18px 48px rgb(0 0 0 / 38%);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    min-width: 360px;
+    background: hsl(var(--background));
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply min-h-screen bg-background font-sans text-foreground antialiased;
+    margin: 0;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 24%);
+    color: hsl(var(--foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .scrollbar-subtle {
+    scrollbar-color: hsl(var(--border)) transparent;
+    scrollbar-width: thin;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
