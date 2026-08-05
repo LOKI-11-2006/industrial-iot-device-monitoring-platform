@@ -1,0 +1,1 @@
+"""Composed application integration tests."""

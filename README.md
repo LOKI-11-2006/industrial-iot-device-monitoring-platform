@@ -10,9 +10,11 @@ A production-oriented AWS platform for securely registering industrial devices, 
 
 **Frontend Phase 1 - project foundation, theme, routing and responsive shell: approved.**
 
-**Frontend Phase 2 - authentication and account recovery: complete and awaiting approval.**
+**Frontend Phase 2 - authentication and account recovery: approved.**
 
-The repository now contains the approved frontend foundation and the Phase 2 authentication implementation. Dashboard implementation remains gated until Frontend Phase 2 is explicitly approved.
+**Backend Phase 1 - project foundation, configuration and environment handling: complete and awaiting approval.**
+
+The repository now contains the approved frontend foundation and authentication implementation. The backend implementation has begun under its separate seven-phase approval cycle; Backend Phase 2 authentication, JWT and RBAC remain gated until Backend Phase 1 is explicitly approved.
 
 ## Canonical architecture baseline
 
@@ -55,6 +57,10 @@ If a supporting document conflicts with the canonical SAD, the SAD takes precede
 
 The [frontend workspace](frontend/README.md) contains the approval-gated React implementation. Frontend Phase 1 established the production toolchain, strict TypeScript boundaries, design tokens, reusable shell primitives, role-aware route metadata, responsive navigation, API/query-provider seams, and explicit error/access states. Frontend Phase 2 adds accessible authentication, session restoration, guarded navigation, safe recovery messaging, throttling feedback, and a backend-ready typed auth adapter.
 
+## Backend implementation
+
+The [backend workspace](backend/README.md) contains the approval-gated Python and FastAPI implementation. Backend Phase 1 establishes the mandatory modular structure, pinned dependency baseline, validated environment configuration, FastAPI/Lambda bootstrap, minimal liveness contract, structured redacted logging, correlation propagation, restricted CORS and trusted hosts, security headers, canonical problem responses, and strict quality tooling. Authentication and persistence behavior remain reserved for their approved backend phases.
+
 ## Architecture principles
 
 1. Security and tenant isolation are enforced server-side and default to deny.
@@ -66,4 +72,4 @@ The [frontend workspace](frontend/README.md) contains the approval-gated React i
 
 ## Phase gate
 
-The next permitted activity is stakeholder review of Frontend Phase 2. Frontend Phase 3 dashboard work may begin only after explicit approval. Architecture or design changes discovered later must be recorded and reviewed rather than silently changing the approved baselines.
+The next requested activity is stakeholder review of Backend Phase 1. Backend Phase 2 authentication, JWT and RBAC may begin only after explicit approval. Frontend Phase 3 is permitted by the frontend gate but has not been started because the backend handoff is now active. Architecture or design changes discovered later must be recorded and reviewed rather than silently changing the approved baselines.
