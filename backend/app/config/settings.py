@@ -55,7 +55,7 @@ class Settings(BaseSettings):
 
     app_name: str = Field(default="ForgeSight Industrial IoT API", min_length=3, max_length=100)
     service_name: str = Field(default="iot-platform-api", pattern=r"^[a-z][a-z0-9-]{2,63}$")
-    version: str = Field(default="0.1.0", pattern=r"^\d+\.\d+\.\d+(?:[-+][A-Za-z0-9.-]+)?$")
+    version: str = Field(default="0.2.0", pattern=r"^\d+\.\d+\.\d+(?:[-+][A-Za-z0-9.-]+)?$")
     environment: DeploymentEnvironment = DeploymentEnvironment.LOCAL
     debug: bool = False
     docs_enabled: bool = True
@@ -73,6 +73,34 @@ class Settings(BaseSettings):
     aws_resource_prefix: str = "forgesight-local"
     aws_endpoint_url: str | None = None
     jwt_signing_key_secret_arn: str | None = None
+
+    jwt_issuer: str = Field(
+        default="https://identity.forgesight.example",
+        min_length=8,
+        max_length=200,
+    )
+    jwt_audience: str = Field(default="forgesight-api", pattern=r"^[A-Za-z0-9._:-]{3,100}$")
+    jwt_algorithm: Literal["ES256", "RS256"] = "ES256"
+    jwt_access_token_ttl_seconds: int = Field(default=900, ge=300, le=900)
+    jwt_clock_skew_seconds: int = Field(default=30, ge=0, le=120)
+    refresh_token_ttl_seconds: int = Field(default=2_592_000, ge=86_400, le=7_776_000)
+    refresh_token_short_ttl_seconds: int = Field(default=86_400, ge=3_600, le=604_800)
+    password_reset_token_ttl_seconds: int = Field(default=900, ge=300, le=3_600)
+
+    refresh_cookie_name: str = Field(
+        default="forgesight_refresh",
+        pattern=r"^[A-Za-z][A-Za-z0-9_-]{2,63}$",
+    )
+    refresh_cookie_secure: bool = False
+    refresh_cookie_same_site: Literal["strict", "lax"] = "strict"
+
+    login_rate_limit: int = Field(default=10, ge=1, le=100)
+    login_rate_window_seconds: int = Field(default=60, ge=10, le=3_600)
+    login_failure_limit: int = Field(default=5, ge=3, le=20)
+    login_failure_window_seconds: int = Field(default=300, ge=60, le=3_600)
+    login_lockout_seconds: int = Field(default=900, ge=60, le=86_400)
+    password_reset_rate_limit: int = Field(default=5, ge=1, le=30)
+    password_reset_rate_window_seconds: int = Field(default=300, ge=60, le=3_600)
 
     @field_validator("cors_allowed_origins", "allowed_hosts", mode="before")
     @classmethod
@@ -171,6 +199,8 @@ class Settings(BaseSettings):
             violations.append("a valid Secrets Manager JWT signing-key ARN is required")
         if any(not origin.startswith("https://") for origin in self.cors_allowed_origins):
             violations.append("all CORS origins must use HTTPS")
+        if not self.refresh_cookie_secure:
+            violations.append("refresh cookies must require HTTPS")
 
         if violations:
             raise ValueError("Invalid production configuration: " + "; ".join(violations) + ".")

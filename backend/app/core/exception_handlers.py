@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.api.problems import create_problem_response
+from app.core.errors import ApplicationError
 from app.middleware.request_context import get_correlation_id
 
 _logger = logging.getLogger(__name__)
@@ -69,6 +70,18 @@ def install_exception_handlers(app: FastAPI) -> None:
             code=code,
             title=title,
             detail=detail,
+        )
+
+    @app.exception_handler(ApplicationError)
+    async def application_error_handler(request: Request, error: ApplicationError) -> JSONResponse:
+        return create_problem_response(
+            request,
+            status_code=error.status_code,
+            code=error.code,
+            title=error.title,
+            detail=error.detail,
+            retry_after_seconds=error.retry_after_seconds,
+            headers=error.headers or None,
         )
 
     @app.exception_handler(Exception)

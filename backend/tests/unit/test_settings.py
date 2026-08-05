@@ -79,10 +79,13 @@ def test_valid_production_configuration_enables_production_controls() -> None:
         jwt_signing_key_secret_arn=(
             "arn:aws:secretsmanager:ap-south-1:123456789012:secret:forgesight/prod/jwt-AbCd12"
         ),
+        refresh_cookie_secure=True,
     )
 
     assert settings.is_production is True
     assert settings.docs_enabled is False
+    assert settings.jwt_access_token_ttl_seconds == 900
+    assert settings.refresh_cookie_secure is True
 
 
 def test_cached_settings_loader_returns_one_process_instance(
