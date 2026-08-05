@@ -4,15 +4,21 @@ A production-oriented AWS platform for securely registering industrial devices, 
 
 ## Project status
 
-**Phase 1 - Canonical Software Architecture Document v2.0: complete and awaiting approval.**
+**Phase 1 - Canonical Software Architecture Document v2.0: approved.**
 
-No application code exists in this repository. Development must not begin until the canonical SAD is explicitly approved.
+**Phase 2 - UI/UX Design Specification v1.0: complete and awaiting approval.**
+
+No application code exists in this repository. Frontend development must not begin until the Phase 2 design specification is explicitly approved.
 
 ## Canonical architecture baseline
 
 [Software Architecture Document v2.0](docs/SOFTWARE_ARCHITECTURE_DOCUMENT.md) is the implementation handoff and source of truth. It contains all 17 required sections: business, functional and non-functional requirements; complete system, AWS and software architecture; database and API designs; folder structure; security and IoT architecture; data flows; user journeys; UI planning; roadmap; risks; and future enhancements.
 
 If a supporting document conflicts with the canonical SAD, the SAD takes precedence until an approved Architecture Decision Record changes the baseline.
+
+## UI/UX design baseline
+
+[UI/UX Design Specification v1.0](docs/UI_UX_DESIGN_SPECIFICATION.md) is the frontend experience blueprint. It defines the enterprise dark design system, role-aware navigation, responsive grid, component and interaction standards, accessibility requirements, complete specifications for 20 routes, analytical visualization choices, and a low-fidelity wireframe for every route. It is a design-only deliverable and contains no application implementation.
 
 ## Supporting Phase 1 analysis
 
@@ -52,4 +58,4 @@ If a supporting document conflicts with the canonical SAD, the SAD takes precede
 
 ## Phase gate
 
-The next permitted activity is stakeholder review of the canonical SAD. After explicit approval, development may proceed only under a separately approved implementation phase. Architecture changes discovered later must be recorded and reviewed rather than silently changing this baseline.
+The next permitted activity is stakeholder review of the UI/UX Design Specification. Frontend implementation may begin only after explicit Phase 2 approval and under a separately authorized implementation phase. Architecture or design changes discovered later must be recorded and reviewed rather than silently changing the approved baselines.
