@@ -1,0 +1,23 @@
+# Codex workspace scratch directories
+outputs/
+work/
+
+# Local tooling
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Future application artifacts
+node_modules/
+dist/
+build/
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+.pytest_cache/
+.coverage
+coverage/
