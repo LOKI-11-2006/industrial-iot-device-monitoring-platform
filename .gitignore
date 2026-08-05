@@ -15,9 +15,14 @@ build/
 .venv/
 __pycache__/
 *.py[cod]
+*.egg-info/
 .env
 .env.*
 !.env.example
 .pytest_cache/
+.test-cache/
+.mypy_cache/
+.ruff_cache/
+pytest-cache-files-*/
 .coverage
 coverage/
